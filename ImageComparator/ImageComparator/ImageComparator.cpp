@@ -20,7 +20,6 @@ double ImageComparator::compare_images(const cv::Mat& first, const cv::Mat& seco
 	std::vector< std::vector<DMatch> > knn_matches;
 	matcher->knnMatch(descr_first, descr_second, knn_matches, 2);
 
-	const float ratio_thresh = 0.7f;
 	std::vector<DMatch> good_matches;
 	size_t knn_matches_size = knn_matches.size();
 	for (size_t i = 0; i < knn_matches_size; i++)

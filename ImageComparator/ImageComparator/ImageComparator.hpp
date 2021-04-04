@@ -22,10 +22,10 @@ protected:
 	double compare_images(const cv::Mat& first, const cv::Mat& second);
 
 private:
-	
 	cv::Ptr<cv::xfeatures2d::SURF> detector;
 	cv::Ptr<cv::DescriptorMatcher> matcher;
 	table_t images_comparison_table;
 	std::vector<std::string> filenames;
+	const float ratio_thresh = 0.7f;
 	int comparison_threshold = 0;
 };
