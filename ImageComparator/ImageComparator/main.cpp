@@ -2,16 +2,16 @@
 #include <iostream>
 #include <vector>
 
-void get_input_data(std::vector<std::string>& files, int& thr)
+size_t get_digit(const std::string& error_msg)
 {
 	bool ok = false;
-	std::cout << "Input image threshold value: \n";
+	int ret = 0;
 	while (!ok)
 	{
-		std::cin >> thr;
-		if (std::cin.fail() || thr < 0)
+		std::cin >> ret;
+		if (std::cin.fail() || ret < 0)
 		{
-			std::cout << "Input threshold must be digit and positive\n";
+			std::cout << error_msg;
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
@@ -21,11 +21,17 @@ void get_input_data(std::vector<std::string>& files, int& thr)
 			std::cin.ignore();
 		}
 	}
-	std::string filename;
+	return ret;
+}
+
+void get_input_data(std::vector<std::string>& files, int& thr)
+{
+	std::cout << "Input image threshold value: \n";
+	thr = get_digit("Input threshold must be digit and positive\n");
 	std::cout << "Count of images: ";
-	size_t img_count = 0;
-	std::cin >> img_count;
+	int img_count = get_digit("Images count must be digit and positive\n");
 	std::cout << "Input image filenames: \n";
+	std::string filename;
 	for (size_t i = 0; i < img_count; ++i)
 	{
 		std::cin >> filename;
