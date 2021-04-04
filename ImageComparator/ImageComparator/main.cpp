@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-size_t get_digit(const std::string& error_msg)
+int get_digit(const std::string& error_msg)
 {
 	bool ok = false;
 	int ret = 0;
