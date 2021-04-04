@@ -5,7 +5,6 @@
 #include <string>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgcodecs.hpp>
 #include <opencv2/xfeatures2d.hpp>
 #include <opencv2/features2d.hpp>
 
@@ -14,7 +13,7 @@ class ImageComparator
 	using table_t = std::map< std::pair< std::string, std::string >, double >;
 public:
 	ImageComparator(const std::vector<std::string>& filenames_, int thr);
-
+		
 	void build_comparison_table();
 	void print_comparison_table();
 

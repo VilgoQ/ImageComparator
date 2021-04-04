@@ -24,12 +24,14 @@ int get_digit(const std::string& error_msg)
 	return ret;
 }
 
-void get_input_data(std::vector<std::string>& files, int& thr)
+bool get_input_data(std::vector<std::string>& files, int& thr)
 {
 	std::cout << "Input image threshold value: \n";
 	thr = get_digit("Input threshold must be digit and positive\n");
 	std::cout << "Count of images: ";
 	int img_count = get_digit("Images count must be digit and positive\n");
+	if (img_count < 2)
+		return false;
 	std::cout << "Input image filenames: \n";
 	std::string filename;
 	for (size_t i = 0; i < img_count; ++i)
@@ -49,10 +51,9 @@ int main()
 {
 	std::vector<std::string> filenames;
 	int thr = 0;
-	get_input_data(filenames, thr);
-	if (filenames.size() < 2)
+	if (!get_input_data(filenames, thr))
 	{
-		std::cout << "Not enough images to compare\n";
+		std::cout << "Wrong input values\n";
 		return 0;
 	}
 	ImageComparator img_comparator(filenames, thr);
