@@ -13,11 +13,23 @@ class ImageComparator
 	using table_t = std::map< std::pair< std::string, std::string >, double >;
 public:
 	ImageComparator(const std::vector<std::string>& filenames_, int thr);
-		
+	
+	/*
+	@brief - Walking through images, compares and adding to images_comparison_table
+	*/
 	void build_comparison_table();
+
+	/*
+	@brief - Printing images_comparison_table with format
+	*/
 	void print_comparison_table();
 
 protected:
+
+	/*
+	@brief - Comparing images with SURF
+	@output - percentage value
+	*/
 	double compare_images(const cv::Mat& first, const cv::Mat& second);
 
 private:
