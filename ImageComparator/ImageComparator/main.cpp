@@ -45,6 +45,7 @@ bool get_input_data(std::vector<std::string>& files, int& thr)
 			std::cin.ignore(10000, '\n');
 		}
 	}
+	return true;
 }
 
 int main()
@@ -56,8 +57,8 @@ int main()
 		std::cout << "Wrong input values\n";
 		return 0;
 	}
-	ImageComparator img_comparator(filenames, thr);
-	img_comparator.build_comparison_table();
+	ImageComparator img_comparator(thr);
+	img_comparator.compare(filenames);
 	img_comparator.print_comparison_table();
 	system("pause");
 	return 0;

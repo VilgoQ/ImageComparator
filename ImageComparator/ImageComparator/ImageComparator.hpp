@@ -12,20 +12,19 @@ class ImageComparator
 {
 	using table_t = std::map< std::pair< std::string, std::string >, double >;
 public:
-	ImageComparator(const std::vector<std::string>& filenames_, int thr);
+	ImageComparator(int comparison_threshold);
 	
 	/*
 	@brief - Walking through images, compares and adding to images_comparison_table
 	*/
-	void build_comparison_table();
+	void compare(const std::vector<std::string>& filenames);
 
 	/*
 	@brief - Printing images_comparison_table with format
 	*/
-	void print_comparison_table();
+	void print_comparison_table() const;
 
 protected:
-
 	/*
 	@brief - Comparing images with SURF
 	@output - percentage value
@@ -36,7 +35,5 @@ private:
 	cv::Ptr<cv::xfeatures2d::SURF> detector;
 	cv::Ptr<cv::DescriptorMatcher> matcher;
 	table_t images_comparison_table;
-	std::vector<std::string> filenames;
 	const float ratio_thresh = 0.7f;
-	int comparison_threshold = 0;
 };

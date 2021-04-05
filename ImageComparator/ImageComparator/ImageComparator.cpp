@@ -1,11 +1,9 @@
 #include "ImageComparator.hpp"
 #include <iostream>
 
-ImageComparator::ImageComparator(const std::vector<std::string>& filenames_, int thr) :
-	comparison_threshold(thr),
-	filenames(filenames_)
+ImageComparator::ImageComparator(int comparison_threshold)
 {
-	detector = cv::xfeatures2d::SURF::create(400);
+	detector = cv::xfeatures2d::SURF::create(comparison_threshold);
 	matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
 }
 
@@ -29,15 +27,14 @@ double ImageComparator::compare_images(const cv::Mat& first, const cv::Mat& seco
 			good_matches.push_back(knn_matches[i][0]);
 		}
 	}
-	double diff = (good_matches.size() / static_cast<double>(knn_matches_size));
-	diff > comparison_threshold ? 100 : diff *= 100;
-	return diff;
+	return good_matches.size() / static_cast<double>(knn_matches_size) * 100;
 }
 
-void ImageComparator::build_comparison_table()
+void ImageComparator::compare(const std::vector<std::string>& filenames)
 {
 	size_t pos = 0;
-	while (pos <= filenames.size() - 1)
+	size_t files_count = filenames.size();
+	while (pos <= files_count - 1)
 	{
 		auto first_filename = filenames[pos];
 		cv::Mat first = cv::imread(first_filename);
@@ -46,7 +43,7 @@ void ImageComparator::build_comparison_table()
 			std::cout << "Can't read image" << first_filename << std::endl;
 			break;
 		}
-		for (size_t cur_pos = pos + 1; cur_pos != filenames.size(); ++cur_pos)
+		for (size_t cur_pos = pos + 1; cur_pos != files_count; ++cur_pos)
 		{
 			auto second_filename = filenames[cur_pos];
 			cv::Mat second = cv::imread(second_filename);
@@ -65,7 +62,7 @@ void ImageComparator::build_comparison_table()
 	}
 }
 
-void ImageComparator::print_comparison_table()
+void ImageComparator::print_comparison_table() const
 {
 	for (const auto& [images, value] : images_comparison_table)
 	{
