@@ -32,13 +32,14 @@ bool get_input_data(std::vector<std::string>& files, int& thr)
 	int img_count = get_digit("Images count must be digit and positive\n");
 	if (img_count < 2)
 		return false;
+	files.resize(img_count);
 	std::cout << "Input image filenames: \n";
 	std::string filename;
 	for (size_t i = 0; i < img_count; ++i)
 	{
 		std::cin >> filename;
 		if (std::cin.good())
-			files.emplace_back(filename);
+			files.push_back(filename);
 		else
 		{
 			std::cin.clear();
