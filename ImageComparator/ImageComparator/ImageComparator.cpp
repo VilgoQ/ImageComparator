@@ -16,7 +16,7 @@ double ImageComparator::compare_images(const cv::Mat& first, const cv::Mat& seco
 	detector->detectAndCompute(second, noArray(), keypoints_second_img, descr_second);
 	
 	std::vector< std::vector<DMatch> > knn_matches;
-	matcher->knnMatch(descr_first, descr_second, knn_matches, 2);
+	matcher->knnMatch(descr_first, descr_second, knn_matches, number_of_good_matches);
 
 	std::vector<DMatch> good_matches;
 	size_t knn_matches_size = knn_matches.size();
