@@ -1,11 +1,12 @@
 #include "ImageComparator.hpp"
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/flann/flann.hpp>
 #include <iostream>
 
 ImageComparator::ImageComparator(int comparison_threshold)
 {
 	detector = cv::ORB::create(comparison_threshold);
-	matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
+	matcher = cv::FlannBasedMatcher(cv::makePtr<cv::flann::LshIndexParams>(12, 20, 2));
 }
 
 double ImageComparator::compare_images(const cv::Mat& first, const cv::Mat& second)
@@ -13,16 +14,20 @@ double ImageComparator::compare_images(const cv::Mat& first, const cv::Mat& seco
 	using namespace cv;
 	std::vector<KeyPoint> keypoints_first_img, keypoints_second_img;
 	Mat descr_first, descr_second;
+	//descr_first.convertTo(descr_first, CV_32F);
+	//descr_second.convertTo(descr_second, CV_32F);
 	detector->detectAndCompute(first, noArray(), keypoints_first_img, descr_first);
 	detector->detectAndCompute(second, noArray(), keypoints_second_img, descr_second);
 	
 	std::vector< std::vector<DMatch> > knn_matches;
-	matcher->knnMatch(descr_first, descr_second, knn_matches, number_of_good_matches);
+	matcher.knnMatch(descr_first, descr_second, knn_matches, number_of_good_matches);
 
 	std::vector<DMatch> good_matches;
 	size_t knn_matches_size = knn_matches.size();
 	for (size_t i = 0; i < knn_matches_size; i++)
 	{
+		if (knn_matches[i].size() < 2)
+			continue;
 		if (knn_matches[i][0].distance < ratio_thresh * knn_matches[i][1].distance)
 		{
 			good_matches.push_back(knn_matches[i][0]);
