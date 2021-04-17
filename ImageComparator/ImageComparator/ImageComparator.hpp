@@ -4,8 +4,6 @@
 #include <map>
 #include <string>
 #include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/xfeatures2d.hpp>
 #include <opencv2/features2d.hpp>
 
 class ImageComparator
@@ -32,7 +30,7 @@ protected:
 	double compare_images(const cv::Mat& first, const cv::Mat& second);
 
 private:
-	cv::Ptr<cv::xfeatures2d::SURF> detector;
+	cv::Ptr<cv::ORB> detector;
 	cv::Ptr<cv::DescriptorMatcher> matcher;
 	table_t images_comparison_table;
 	const float ratio_thresh = 0.7f;

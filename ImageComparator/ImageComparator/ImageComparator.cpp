@@ -1,9 +1,10 @@
 #include "ImageComparator.hpp"
+#include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 
 ImageComparator::ImageComparator(int comparison_threshold)
 {
-	detector = cv::xfeatures2d::SURF::create(comparison_threshold);
+	detector = cv::ORB::create(comparison_threshold);
 	matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
 }
 
@@ -40,7 +41,7 @@ void ImageComparator::compare(const std::vector<std::string>& filenames)
 		cv::Mat first = cv::imread(first_filename);
 		if (first.empty())
 		{
-			std::cout << "Can't read image" << first_filename << std::endl;
+			std::cout << "Can't read image: " << first_filename << std::endl;
 			break;
 		}
 		for (size_t cur_pos = pos + 1; cur_pos != files_count; ++cur_pos)
@@ -49,8 +50,8 @@ void ImageComparator::compare(const std::vector<std::string>& filenames)
 			cv::Mat second = cv::imread(second_filename);
 			if (second.empty())
 			{
-				std::cout << "Can't read image" << second_filename << std::endl;
-				break;
+				std::cout << "Can't read image: " << second_filename << std::endl;
+				continue;
 			}
 			else
 			{
