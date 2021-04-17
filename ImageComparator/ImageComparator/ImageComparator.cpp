@@ -14,8 +14,6 @@ double ImageComparator::compare_images(const cv::Mat& first, const cv::Mat& seco
 	using namespace cv;
 	std::vector<KeyPoint> keypoints_first_img, keypoints_second_img;
 	Mat descr_first, descr_second;
-	//descr_first.convertTo(descr_first, CV_32F);
-	//descr_second.convertTo(descr_second, CV_32F);
 	detector->detectAndCompute(first, noArray(), keypoints_first_img, descr_first);
 	detector->detectAndCompute(second, noArray(), keypoints_second_img, descr_second);
 	
