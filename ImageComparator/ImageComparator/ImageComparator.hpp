@@ -3,7 +3,6 @@
 #include <vector>
 #include <map>
 #include <string>
-#include <opencv2/core/core.hpp>
 #include <opencv2/features2d.hpp>
 
 class ImageComparator
@@ -27,7 +26,7 @@ protected:
 	@brief - Comparing images with SURF
 	@output - percentage value
 	*/
-	double compare_images(const cv::Mat& first, const cv::Mat& second);
+	double compare_images(const cv::Mat& first, const cv::Mat& second) const;
 
 private:
 	cv::Ptr<cv::ORB> detector;

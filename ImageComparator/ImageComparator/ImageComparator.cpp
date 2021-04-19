@@ -9,7 +9,7 @@ ImageComparator::ImageComparator(int comparison_threshold)
 	matcher = cv::FlannBasedMatcher(cv::makePtr<cv::flann::LshIndexParams>(12, 20, 2));
 }
 
-double ImageComparator::compare_images(const cv::Mat& first, const cv::Mat& second)
+double ImageComparator::compare_images(const cv::Mat& first, const cv::Mat& second) const
 {
 	using namespace cv;
 	std::vector<KeyPoint> keypoints_first_img, keypoints_second_img;
@@ -19,7 +19,8 @@ double ImageComparator::compare_images(const cv::Mat& first, const cv::Mat& seco
 	
 	std::vector< std::vector<DMatch> > knn_matches;
 	matcher.knnMatch(descr_first, descr_second, knn_matches, number_of_good_matches);
-
+	if (knn_matches.empty())
+		return .0;
 	std::vector<DMatch> good_matches;
 	size_t knn_matches_size = knn_matches.size();
 	for (size_t i = 0; i < knn_matches_size; i++)
