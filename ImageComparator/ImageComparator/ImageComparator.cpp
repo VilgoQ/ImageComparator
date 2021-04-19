@@ -45,7 +45,8 @@ void ImageComparator::compare(const std::vector<std::string>& filenames)
 		if (first.empty())
 		{
 			std::cout << "Can't read image: " << first_filename << std::endl;
-			break;
+			++pos;
+			continue;
 		}
 		for (size_t cur_pos = pos + 1; cur_pos != files_count; ++cur_pos)
 		{
@@ -54,6 +55,7 @@ void ImageComparator::compare(const std::vector<std::string>& filenames)
 			if (second.empty())
 			{
 				std::cout << "Can't read image: " << second_filename << std::endl;
+				++pos;
 				continue;
 			}
 			else
