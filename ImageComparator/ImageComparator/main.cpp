@@ -9,7 +9,7 @@ int get_digit(const std::string& error_msg)
 	while (!ok)
 	{
 		std::cin >> ret;
-		if (std::cin.fail() || ret > 100)
+		if (std::cin.fail() || ret < 0 || ret > 100)
 		{
 			std::cout << error_msg;
 			std::cin.clear();
