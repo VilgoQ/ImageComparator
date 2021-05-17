@@ -9,7 +9,7 @@ class ImageComparator
 {
 	using table_t = std::map< std::pair< std::string, std::string >, double >;
 public:
-	ImageComparator(int comparison_threshold);
+	ImageComparator(double comparison_threshold);
 	
 	/*
 	@brief - Walking through images, compares and adding to images_comparison_table
@@ -32,6 +32,7 @@ private:
 	cv::Ptr<cv::ORB> detector;
 	cv::FlannBasedMatcher matcher;
 	table_t images_comparison_table;
-	const float ratio_thresh = 0.7f;
-	const int number_of_good_matches = 2;
+	static constexpr float ratio_thresh = 0.7f;
+	static constexpr int number_of_good_matches = 2;
+	static constexpr int n_features = 1000;
 };

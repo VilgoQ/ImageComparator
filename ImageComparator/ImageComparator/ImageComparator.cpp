@@ -3,9 +3,9 @@
 #include <opencv2/flann/flann.hpp>
 #include <iostream>
 
-ImageComparator::ImageComparator(int comparison_threshold)
+ImageComparator::ImageComparator(double comparison_threshold)
 {
-	detector = cv::ORB::create(comparison_threshold);
+	detector = cv::ORB::create(static_cast<int>(n_features * comparison_threshold));
 	matcher = cv::FlannBasedMatcher(cv::makePtr<cv::flann::LshIndexParams>(12, 20, 2));
 }
 
